@@ -12,15 +12,24 @@ data class Payment(
 ){
 
     fun pay(paidAt: LocalDateTime = LocalDateTime.now()): Payment {
-        return Payment(
+        val payment = this.copy(
                 authorizationNumber = Random().nextInt(),
                 amount = order.totalPrice(),
                 invoice = Invoice(
                         billingAddress = order.address,
                         shippingAddress = order.address
-                ),
-                order = order.close(),
-                paidAt = paidAt
+                )
+        )
+
+        // Pay all the items
+        val paymentPayed = order.items.fold(payment, {
+            currentPayment, item -> item.pay(currentPayment)
+        })
+
+        // Finalize the order / payment
+        return paymentPayed.copy(
+             order = paymentPayed.order.printShippingLabel().close(),
+             paidAt = paidAt
         )
     }
 
