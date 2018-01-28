@@ -17,7 +17,8 @@ data class Payment(
                 amount = order.totalPrice(),
                 invoice = Invoice(
                         billingAddress = order.address,
-                        shippingAddress = order.address
+                        shippingAddress = order.address,
+                        email = order.customer.email
                 )
         )
 
@@ -27,8 +28,14 @@ data class Payment(
         })
 
         // Finalize the order / payment
+        // Print the shipping label for physical products & books
+        // Send email to customer confirm digital products
         return paymentPayed.copy(
-             order = paymentPayed.order.printShippingLabel().close(),
+             order = paymentPayed.order
+                        .printShippingLabel()
+                        .sendDigitalPurchaseConfirmation()
+                        .sendMenbershipPurchaseConfirmation()
+                        .close(),
              paidAt = paidAt
         )
     }

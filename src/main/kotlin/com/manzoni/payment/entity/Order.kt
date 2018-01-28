@@ -29,6 +29,29 @@ data class Order(
         return this
     }
 
+    fun sendDigitalPurchaseConfirmation():Order {
+        val digitalProducts = items.filter {
+            i -> i.product is Digital
+        }
+        if(!digitalProducts.isEmpty()){
+            // TODO Send Confirmation email for digital products
+        }
+
+        return this
+    }
+
+    fun sendMenbershipPurchaseConfirmation():Order {
+        items.filter {
+            i -> i.product is Menbership
+        }.forEach {
+            i ->
+            // TODO - Send Menbership Confirmation for each item
+
+        }
+
+        return this
+    }
+
     fun totalPrice():Float {
         return items.map { a -> a.quantity * a.price }.sum()
     }
