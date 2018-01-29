@@ -1,4 +1,4 @@
-#Fluxo de Pagamento
+# Fluxo de Pagamento
 Este documento tem como objetivo detalhar o fluxo de pagamento, estratégia de implementação, modelagem das entidades e escolha de tecnologia para o protótipo funcional do fluxo de pagamento.
 
 ## Tecnologia Utilizada
